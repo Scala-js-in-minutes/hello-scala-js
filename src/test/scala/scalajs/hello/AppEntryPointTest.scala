@@ -10,7 +10,7 @@ class AppEntryPointTest extends FunSuite {
   val expectedWelcomeMessage = "Hello scala.js developer! :D"
 
   test("Welcome message should great a developer") {
-    assert(AppEntryPoint.welcomeMessage() === expectedWelcomeMessage)
+    assert(AppEntryPoint.welcomeMessage() === "force fail test")
   }
 
   test("Welcome message function is exposed to javascript") {
