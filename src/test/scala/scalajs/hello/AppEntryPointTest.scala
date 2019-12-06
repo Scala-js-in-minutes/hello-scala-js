@@ -6,14 +6,13 @@ import scala.scalajs._
 import scala.scalajs.js.JavaScriptException
 
 class AppEntryPointTest extends FunSuite {
-
   val expectedWelcomeMessage = "Hello scala.js developer! :D"
 
-  test("Welcome message should great a developer") {
-    assert(AppEntryPoint.welcomeMessage() === "force fail test")
+  test("Welcome message should greet a developer") {
+    assert(AppEntryPoint.welcomeMessage() === expectedWelcomeMessage)
   }
 
-  test("Welcome message function is exposed to javascript") {
+  test("A function can be accessed from javascript") {
     assert(js.eval("app.welcomeMessage()") === expectedWelcomeMessage)
   }
 

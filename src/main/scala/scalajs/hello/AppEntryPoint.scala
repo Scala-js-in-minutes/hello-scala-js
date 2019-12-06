@@ -4,7 +4,6 @@ import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
 @JSExportTopLevel("app")
 object AppEntryPoint {
-
   @JSExport("welcomeMessage")
   def welcomeMessage(): String = "Hello scala.js developer! :D"
 
