@@ -1,2 +1,2 @@
-# hello-scala-js
+## WIP
 Hello scala.js!
