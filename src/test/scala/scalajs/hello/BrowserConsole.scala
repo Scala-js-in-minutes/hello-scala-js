@@ -3,16 +3,16 @@ package scalajs.hello
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobalScope
 
-object ConsoleLogsRecorder {
+object BrowserConsole {
   private val consoleLogs = js.Array[String]()
   exposeSupportingJSFunctions()
 
-  def start(): Unit = {
+  def record(): Unit = {
     consoleLogs.clear()
     jsEnv.attachConsoleSpy(consoleLogs)
   }
 
-  def stopAndGetLogs(): List[String] = {
+  def stopRecordingAndGetLogs(): List[String] = {
     jsEnv.detachConsoleSpy()
     consoleLogs.toList
   }
@@ -20,15 +20,20 @@ object ConsoleLogsRecorder {
   private def exposeSupportingJSFunctions() = js.eval(
     """
       function attachConsoleSpy(array) {
-          console.$log = console.log;
-          console.log = (log) => {
-            array.push(log);
-            console.$log(log);
+          if (!console.$log) {
+            console.$log = console.log;
+            console.log = (message) => {
+              array.push(message);
+              console.$log(message);
+            }
           }
       }
 
       function detachConsoleSpy() {
-          console.log = console.$log;
+          if (console.$log) {
+            console.log = console.$log;
+            delete console.$log;
+          }
       }
       """)
 
