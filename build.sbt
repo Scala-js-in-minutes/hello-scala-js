@@ -6,4 +6,4 @@ version := "1.0"
 scalaVersion := "2.13.1"
 
 scalaJSUseMainModuleInitializer := true
-libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.8" % "test"
+libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.0-M2" % "test"

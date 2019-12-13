@@ -1,11 +1,11 @@
 package scalajs.hello
 
-import org.scalatest._
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.scalajs._
 import scala.scalajs.js.JavaScriptException
 
-class AppEntryPointTest extends FunSuite {
+class AppEntryPointTest extends AnyFunSuite {
   val expectedWelcomeMessage = "Hello scala.js developer! :D"
 
   test("Welcome message should greet a developer") {
