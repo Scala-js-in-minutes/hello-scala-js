@@ -1,47 +1,38 @@
 package scalajs.hello
 
+import scala.collection.mutable._
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSGlobalScope
 
 object BrowserConsole {
-  private val consoleLogs = js.Array[String]()
-  exposeSupportingJSFunctions()
+  private val consoleLogs = ListBuffer.empty[String]
 
   def record(): Unit = {
     consoleLogs.clear()
-    jsEnv.attachConsoleSpy(consoleLogs)
+    attachConsoleSpy()
   }
 
   def stopRecordingAndGetLogs(): List[String] = {
-    jsEnv.detachConsoleSpy()
+    detachConsoleSpy()
     consoleLogs.toList
   }
 
-  private def exposeSupportingJSFunctions() = js.eval(
-    """
-      function attachConsoleSpy(array) {
-          if (!console.$log) {
-            console.$log = console.log;
-            console.log = (message) => {
-              array.push(message);
-              console.$log(message);
-            }
-          }
+  private val console: js.Dynamic = js.Dynamic.global.selectDynamic("console")
+  private var targetLogFn: js.Function1[js.Any, Unit] = _
+
+  private def isAttached: Boolean = targetLogFn != null
+
+  private def attachConsoleSpy(): Unit =
+    if (!isAttached) {
+      targetLogFn = console.log.asInstanceOf[js.Function1[js.Any, Unit]]
+      console.log = (message: String) => {
+        consoleLogs += message
+        targetLogFn(message)
       }
+    }
 
-      function detachConsoleSpy() {
-          if (console.$log) {
-            console.log = console.$log;
-            delete console.$log;
-          }
-      }
-      """)
-
-  @JSGlobalScope
-  @js.native
-  private object jsEnv extends js.Object {
-    def attachConsoleSpy(array: js.Array[String]): Unit = js.native
-
-    def detachConsoleSpy(): Unit = js.native
-  }
+  private def detachConsoleSpy(): Unit =
+    if (isAttached) {
+      console.log = targetLogFn
+      targetLogFn = null
+    }
 }
