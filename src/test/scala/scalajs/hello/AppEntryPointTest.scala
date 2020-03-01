@@ -23,8 +23,8 @@ class AppEntryPointTest extends AnyFunSuite {
   }
 
   test("The application should successfully run and print a greeting message in the browser's console") {
-    BrowserConsole.record()
+    BrowserConsoleSpy.record()
     AppEntryPoint.main(Array())
-    assert(BrowserConsole.stopRecordingAndGetLogs() === List(expectedWelcomeMessage))
+    assert(BrowserConsoleSpy.stopRecordingAndGetLogs() === List(expectedWelcomeMessage))
   }
 }

@@ -3,7 +3,7 @@ package scalajs.hello
 import scala.collection.mutable._
 import scala.scalajs.js
 
-object BrowserConsole {
+object BrowserConsoleSpy {
   private val consoleLogs = ListBuffer.empty[String]
 
   def record(): Unit = {
